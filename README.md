@@ -5,6 +5,7 @@ Supported type: mp3,mms,asx or any kinds of streaming radio station or mp3 file.
 
 For playing mms:// link you will need silverlight.
 
+<pre>
 Troubleshooting & General Setup Questions:
 --------------------------------------------
 1. How I can add station ?
@@ -23,5 +24,5 @@ Troubleshooting & General Setup Questions:
 > Make one folder inside Joomla instillation directory & upload mp3 files there. For example: I have one folder called “mp3” in “images” folder. So you can upload mp3 files from media manager or by FTP. Make sure that mp3 file's name don't have any space like : not amar bangla.mp3 (incorrect) but amar_bangla.mp3 (correct). After upload the link will be:
 http://YOURDOMAIN/images/mp3/amar_bangla.mp3
 At present mp3 playlist not support so you need to make separate link for every mp3 file.
-
+</pre>
 Still need help? Please write in forum: http://joomlacode.org/gf/project/hoicoi_radio/forum/
