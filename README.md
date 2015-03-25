@@ -5,6 +5,8 @@ Supported type: mp3,mms,asx or any kinds of streaming radio station or mp3 file.
 
 For playing mms:// link you will need silverlight.
 
+More here: https://extensions.hoicoimasti.com/8-joomla-extension/1-hoicoi-radio.html
+
 <pre>
 Troubleshooting & General Setup Questions:
 --------------------------------------------
