@@ -21,7 +21,7 @@ $code = base64_data_encode(htmlspecialchars($result));
 $player= JURI::root()."modules/mod_hoicoi_radio/helper.php?d={$code}";
 
 echo "<div style='{$style}' class='{$moduleclass_sfx}'>
-<iframe src='{$player}' height='180px' width='100%' frameborder='0' scrolling='no'></iframe>
+<iframe src='{$player}' height='150px' width='100%' frameborder='0' scrolling='no'></iframe>
 </div>";
 
   if ( $popup == 0) {
@@ -50,7 +50,7 @@ echo "<div style='{$style}' class='{$moduleclass_sfx}'>
 	</script>";
 	?>
 
-<p><a href="javascript: void(0)" onclick="popup('<?php echo $player; ?>')">Play Radio in popup Window </a></p>
+<p><a href="javascript: void(0)" onclick="popup('<?php echo $player; ?>')">Play Radio in Popup Window </a></p>
 
 <?php
 	}
