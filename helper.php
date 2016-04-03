@@ -60,16 +60,31 @@ class modHoicoiRadioHelper {
         $options = "";
         $dirFormate = JPATH_ROOT . DIRECTORY_SEPARATOR . trim($dir);
 
+        //$allow = implode('|', $allow);
+
         if ($handle = opendir($dirFormate)) {
             while (false !== ($file = readdir($handle))) {
                 if ($file != "." && $file != "..") {
                     $path_parts = pathinfo($file);
-                    $options .= '<option value="' . base64_encode(JUri::base() . $dir . "/" . $file) . '">' . $path_parts['filename'] . '</option>';
+                    if (self::searchAllowFiles($path_parts['extension'])) {
+                        $options .= '<option value="' . base64_encode(JUri::base() . $dir . "/" . $file) . '">' . $path_parts['filename'] . '</option>';
+                    }
                 }
             }
             closedir($handle);
         }
         return $options;
+    }
+
+    static private function searchAllowFiles($file_tyle) {
+        $allow = array('mp3', 'wma', 'm4a', 'wav', 'mpeg', 'flv');
+        foreach ($allow as $a) {
+            if ($a == $file_tyle) {
+                return true;
+                break;
+            }
+        }
+        return false;
     }
 
 }
