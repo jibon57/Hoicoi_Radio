@@ -1,69 +1,75 @@
 <?php
+
+defined('_JEXEC') or die('Restricted access');
+
 /**
- * @use	       Configure the player
- * @package    hoicoi_radio
- * @version    v3.2
- * @email      jiboncosta57@gmail.com
  * @author     Jibon Lawrence Costa
- * @link       http://www.hoicoimasti.com
- * @copyright  Copyright (C) 2012 hoicoimasti.com All Rights Reserved
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
-require_once('functions.php');
-$decode = htmlspecialchars_decode(base64_data_decode($_GET['d']));
-$post=explode('=>',$_POST['select']);
-$url = preg_replace("/\/$/","",$post[0]);
-$name=$post[1]; 
+class modHoicoiRadioHelper {
 
-	if (preg_match("/^mms:\/\//", $url) or preg_match("/.asx$/", $url)) {
-	  $type= 'type="audio/wma"';
-	  $steam= '';
-	}
-	
-	elseif (preg_match("/[)]$/", $url) or preg_match("/.mp3$/", $url)) {
-	  $type= 'type="audio/mp3"';
-	  $steam= '';
-	  $url= preg_replace('/^\(|\)$/','',$url);
-	  $url= preg_replace("/\/$/","",$url);	  
-	}
-	
-	else {
-	  $type= 'type="audio/mp3"';
-	  $steam= "/;stream.mp3";	  
-	}
-?>
+    public static function getAjax() {
 
-<?php echo "<p>Now Playing: <b>".$name."</b></p>"?>
-<script src="asset/jquery.js"></script>	
-<script src="asset/mediaelement-and-player.min.js"></script>
-<link rel="stylesheet" href="asset/mediaelementplayer.min.css" />
+        jimport('joomla.application.module.helper');
 
-<audio src="<?php echo $url.$steam; ?>" <?php echo $type; ?>  autoplay="true" fullscreen="false" loop="true" width="98%">		
-</audio>
+        $input = JFactory::getApplication()->input;
+        if ($input->get("url", " ", "STRING") !== JUri::base()) {
+            return false;
+        }
+        $module = JModuleHelper::getModule('hoicoi_radio');
+        $params = new JRegistry();
+        $params->loadString($module->params);
 
-<script type='text/javascript'>
-$('audio,video').mediaelementplayer({
-audioWidth: '100%',
-audioHeight: 30,
-features: ['playpause','current','volume'],
-enableAutosize: true,
-enablePluginDebug: false,
-pluginPath: 'asset/',
-flashName: 'flashmediaelement.swf',
-silverlightName: 'silverlightmediaelement.xap',
-plugins: ['flash','silverlight']
+        $channels = explode(',', rtrim($params->get('channels'), ","));
+        $options = "";
+        if (is_array($channels)) {
+            return modHoicoiRadioHelper::formatChannnels($channels);
+        }
 
-});
-</script>
-</p> <p>
-<form id="radio" name="form1" method="post" action="">
-  <p>
-    <label for="select"></label>
-    <select name="select" id="select" class="form-control" onchange='this.form.submit()'>
-      <option>Select any Channel</option>
-      <?php echo $decode;?>
-    </select>
-  </p> <p>
-     <noscript> <input type="submit" class="btn btn-primary" name="button" id="button" value="Play" /></noscript>
-  </p>
-</form>
+        return false;
+    }
+
+    /**
+     *
+     * @param type $channels array
+     * @return formated option
+     */
+    static public function formatChannnels($channels) {
+        $options = "";
+
+        foreach ($channels as $channel) {
+
+            $data = explode("|", $channel);
+
+            if (trim($data[1]) == "local") {
+                $options .= self::getDirectoryFiles($data[2]);
+            } else {
+                $options .= '<option id="' . $data[0] . '" value="' . base64_encode(trim($data[2])) . '">' . trim($data[1]) . '</option>';
+            }
+        }
+
+        return $options;
+    }
+
+    /**
+     * Get all the files under a directory
+     * @param type $dir
+     * @return string
+     */
+    static private function getDirectoryFiles($dir) {
+        $options = "";
+        $dirFormate = JPATH_ROOT . DIRECTORY_SEPARATOR . trim($dir);
+
+        if ($handle = opendir($dirFormate)) {
+            while (false !== ($file = readdir($handle))) {
+                if ($file != "." && $file != "..") {
+                    $path_parts = pathinfo($file);
+                    $options .= '<option value="' . base64_encode(JUri::base() . $dir . "/" . $file) . '">' . $path_parts['filename'] . '</option>';
+                }
+            }
+            closedir($handle);
+        }
+        return $options;
+    }
+
+}

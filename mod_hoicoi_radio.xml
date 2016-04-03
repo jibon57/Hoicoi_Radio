@@ -1,78 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="2.5" method="upgrade" >
-	<name>Hoicoi Radio</name>
-	<author>Jibon Lawrence Costa</author>
-	<creationDate>Nov 12, 2013 </creationDate>
-	<copyright>Copyright (C) 2012 - 2013 Hoicoimasti.com. All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<authorEmail>jiboncosta57@gmail.com</authorEmail>
-	<authorUrl>www.hoicoimasti.com</authorUrl>
-	<version>3.3</version>
-	<description><![CDATA[ 
+<extension type="module" version="1.6" method="upgrade">
+    <name>mod_hoicoi_radio</name>
+    <creationDate>2015-06-02</creationDate>
+    <author>Jibon Lawrence Costa</author>
+    <authorEmail>jiboncosta57@gmail.com</authorEmail>
+    <authorUrl>http://extensions.hoicoimasti.com/</authorUrl>
+    <copyright>Copyright (C) 2015 Jibon Lawrence Costa Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <version>3.5</version>
+    <description><![CDATA[
        <div style="background:#E5F5FF;border:1px solid #99D6FF;padding:10px;margin:10px;-box-shadow: inset 0px 0px 10px #fff, 0px 0px 5px #ccc;-webkit-box-shadow: inset 0px 0px 10px #fff, 0px 0px 5px #ccc;-moz-box-shadow: inset 0px 0px 10px #fff, 0px 0px 5px #ccc;">
-<div><strong>Hoicoi Radio</strong> - a Joomla! CMS module. Add unlimited radion station & enjoy.</div>
+<div><strong>Hoicoi Radio</strong> - a Joomla! CMS module. Add unlimited radion station & local audio files.</div>
 <p>&nbsp;</p>
-<div> 
+<div>
 </div>
-<p>Just add your desire radio channel Address & station name</p>
+<p>Just add your desire radio channel Address & station name. For example: http://162.254.150.34:7031/;stream.mp3, http://162.254.150.34:7011/;stream.mp3, http://62.210.110.214:8103/stream?type=.mp3 etc.</p>
 <p> </p>
 <p> </p>
-<div><b>Every channel url & name must be separated by comma (,). You need to put channel name corresponding to it's url. </b></div>
-<p>&nbsp;</p>
+<div><b>If you want to add all the files under a directory then put this text "local" as Channel Name. All the folder should be located under Joomla installation directory. For example: images/mp3, images/bengali, media/bengali etc.</b></div>
+<p>If you want to single file then use this format: http://YOUR_SITE/FOLDER/FILE.mp3 </p>
 <div>More information: <a href="http://www.hoicoimasti.com/" target="_blank" >hoicoimasti.com</a></div>
-</div>  
+</div>
       ]]></description>
-<files>
-		<filename module="mod_hoicoi_radio">mod_hoicoi_radio.php</filename>
-		<folder>asset</folder>
-		<filename>index.html</filename>
-		<filename>helper.php</filename>
-		<filename>functions.php</filename>
-		
-</files>
-		<!--Start for Joomla 2.5, 3 -->		
-<config>
-	<fields name="params">		
-			<fieldset name="basic">
-		<field name="cname" type="textarea" rows="10" cols="40" default="Radio2Fun,Radio Goongoon,ABC Radio,Radio Ajyal"
-			label="Radio Station Name"
-		
-		description="Enter the Name of the Stations' separated by comma (,) . You can put each name in each line." />
-		
-		<field name="curl" type="textarea" rows="10" cols="40" default="http://67.228.101.162:7600/,
-http://184.107.144.218:8040/,
-http://184.107.144.218:8282/,mms://wms10.iviplanet.com/AJYAL"
-
-			label="Radio Station Url"
-		
-		description="Enter the address of Station's corresponding to the station name separated by comma (,). You can put each url in each line" />
-		
-		<field name="popup" type="radio"  default="0"
-				label="Show Popup Link"
-				description="If enable then this will generate one link by which clicking user can see player with station list in different window.">
-				<option value="0">Yes</option>
-				<option value="1">No</option>
-              </field>
-              
-              <field	label="Custom CSS" name="style" type="text"  description="Custom CSS here" />
-		<field
-					name="moduleclass_sfx"
-					type="text"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-					
-		<field name="pwby" type="radio"  default="0"
-				label="Show Powered By Link"
-				description="If you Select No then please do some donation me.">
-				<option value="0">Yes</option>
-				<option value="1">No</option>
-              </field>
-		
-
-	         	</fieldset>
-		
-		</fields>
-	</config>
-
+    <files>
+        <filename module="mod_hoicoi_radio">mod_hoicoi_radio.php</filename>
+        <folder>tmpl</folder>
+        <folder>fields</folder>
+        <folder>assets</folder>
+        <filename>helper.php</filename>
+        <filename>index.html</filename>
+        <filename>mod_hoicoi_radio.xml</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB.mod_hoicoi_radio.ini</language>
+        <language tag="de-DE">language/de-DE.mod_hoicoi_radio.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset addfieldpath="/modules/mod_hoicoi_radio/fields" name="basic">
+                <field  description=""  label="Language Field" name="channels" default="1|Radio shongi|http://162.254.150.34:7031/;stream.mp3,2|Radio mainamati|http://162.254.150.34:7011/;stream.mp3,3|Radio munna|http://62.210.110.214:8103/stream?type=.mp3,4|Radio voice24|http://server.realitsolution.com:5128/;stream.mp3" type="Channels" />
+                <field name="popup" type="radio"  default="1"
+                       label="Show Popup Link"
+                       description="If enable then this will generate one link by which clicking user can see player with station list in different window.">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </field>
+            </fieldset>
+            <fieldset name="advanced">
+                <field
+                    name="moduleclass_sfx"
+                    type="textarea"
+                    rows="3"
+                    label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                    description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+            </fieldset>
+        </fields>
+    </config>
 </extension>
-
