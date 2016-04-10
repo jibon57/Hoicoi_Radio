@@ -103,8 +103,7 @@ if (!isset($_GET['url'])) {
                     }
                 });
 
-                player.load();
-                player.pause();
+				player.setSrc(decodeBase64($("#hoicoiRadioChannels option:nth-child(2)").val())); //preventing not found error
 
                 $("#hoicoiRadioArea #hoicoiRadioChannels").change(function () {
                     $("#hoicoiRadioArea #hoicoiRadiostatus").html("<img alt='loading' src='../assets/loading.gif'><img/>");
