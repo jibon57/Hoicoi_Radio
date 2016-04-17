@@ -76,7 +76,7 @@ if (!isset($_GET['url'])) {
                     url: '<?php echo $_GET["url"] ?>',
                     success: function (response) {
                         if (response.data) {
-                            $('#hoicoiRadioArea #hoicoiRadioChannels').html(response.data);
+                            $('#hoicoiRadioArea #hoicoiRadioChannels').append(response.data);
                         }
 
                     },
